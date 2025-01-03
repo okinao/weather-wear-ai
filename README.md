@@ -1,5 +1,5 @@
 # 服装コーディネートAI
-The App that teach you what to wear tomorrow.
+このアプリでは明日の気象情報に合わせて服装のコーディネート案を画像で提示してくれます。
 
 ## 仮想環境
 ```shell
