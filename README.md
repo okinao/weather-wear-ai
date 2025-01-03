@@ -1,4 +1,4 @@
-# weather-wear-ai
+# 服装コーディネートAI
 The App that teach you what to wear tomorrow.
 
 ## 仮想環境
