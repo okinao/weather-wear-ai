@@ -22,12 +22,14 @@ streamlit run app.py
 ### 使用するモデル
 
 自由会話：`gemini-2.0-flash-exp`
+
 画像生成：`imagen-3.0-generate-001`
-参考：(試験運用版モデル)[https://ai.google.dev/gemini-api/docs/models/experimental-models?hl=ja]
+
+参考：https://ai.google.dev/gemini-api/docs/models/experimental-models?hl=ja
 
 ### SDKの使用
 
-参考：(Google Gen AI SDK)[https://ai.google.dev/gemini-api/docs/sdks?hl=ja]
+参考：https://ai.google.dev/gemini-api/docs/sdks?hl=ja
 
 ### imagen用のPythonパッケージ
 
