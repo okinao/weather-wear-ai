@@ -1,40 +1,40 @@
+import vertexai
+from vertexai.preview.vision_models import ImageGenerationModel
 import settings
-import os
-import google.generativeai as genai
 
-# キー情報など固定値を定数定義
-GEMINI_API_KEY = settings.GEMINI_API_KEY
+PROJECT_ID = settings.PROJECT_ID
+LOCATION = settings.LOCATION
 IMAGEN_MODEL = settings.IMAGEN_MODEL
 
+vertexai.init(project=PROJECT_ID, location=LOCATION)
 
-def generate_image():
-    genai.configure(api_key=GEMINI_API_KEY)
+def generate_image(prompt: str) -> None:
+    """
+    指定されたプロンプトに基づいて画像を生成し、保存する関数。
 
-    imagen = genai.ImageGenerationModel(IMAGEN_MODEL)
+    Args:
+        prompt (str): 画像生成のためのテキストプロンプト。
 
-    result = imagen.generate_images(
-        prompt="Fuzzy bunnies in my kitchen",
-        number_of_images=4,
-        safety_filter_level="block_only_high",
+    Returns:
+        None: この関数は何も返しませんが、生成された画像をファイルに保存します。
+    """
+    model = ImageGenerationModel.from_pretrained(IMAGEN_MODEL)
+
+    images = model.generate_images(
+        prompt=prompt,
+        number_of_images=2,
+        language="ja",
+        aspect_ratio="1:1",
+        safety_filter_level="block_some",
         person_generation="allow_adult",
-        aspect_ratio="3:4",
-        negative_prompt="Outside",
     )
 
-    for image in result.images:
-        print(image)
+    for i, image in enumerate(images, 1):
+        output_file = f"images/image-{i}.png"
+        image.save(location=output_file, include_generation_parameters=False)
+        print(f"ファイル名: {output_file}, サイズ: {len(image._image_bytes)} bytes")
 
-    # Open and display the image using your local operating system.
-    for image in result.images:
-        image._pil_image.show()
-    
     return
 
-if __name__ == "__main__":
-    # デバッグ用
-    conditions1 = "トップス：長袖シャツ、薄手ニット ボトムス：ロングパンツ（デニム、チノパンなど） アウター：ミドル丈のコート（ウール、ダウンなど） 足元：スニーカー、ブーツ 小物：マフラー、手袋（気温に応じて）"
-    conditions2 = "2025年01月04日の埼玉県 さいたま の天気は晴時々曇です。 最高気温は9度、最低気温は0度です。 降水確率は0時から6時まで10%、6時から12時まで0%、12時から18時まで0%、18時から24時まで10%です"
-    prompt = conditions1 + "\n上記を参考にしながら以下の気象条件にあうコーディネートのイメージ画像を生成してください。\n" + conditions2
-    # result = generate_image(prompt)
-    result = generate_image()
-    # print(result)
+if __name__ == '__main__':
+    pass
